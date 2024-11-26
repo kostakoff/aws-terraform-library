@@ -20,6 +20,10 @@ resource "kubectl_manifest" "calico-installation" {
         type: Calico
       calicoNetwork:
         bgp: Disabled
+      controlPlaneTolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+          effect: "NoSchedule"
   YAML
 
   wait_for_rollout = false

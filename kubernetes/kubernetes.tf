@@ -66,7 +66,7 @@ resource "aws_eks_node_group" "master" {
   
   ami_type = "AL2_x86_64"
   capacity_type = "ON_DEMAND"
-  instance_types = ["c5.large"]
+  instance_types = ["t3.medium"]
   disk_size = "30"
 
   scaling_config {
@@ -75,6 +75,15 @@ resource "aws_eks_node_group" "master" {
     min_size     = 3
   }
   
+  labels = {
+    "node-role.kubernetes.io/control-plane" = "control-plane"
+  }
+  
+  taint {
+    key = "node-role.kubernetes.io/control-plane"
+    effect = "NO_SCHEDULE"
+  }
+
   remote_access {
     ec2_ssh_key = "main-key" 
   }
