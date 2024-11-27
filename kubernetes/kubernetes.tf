@@ -61,7 +61,7 @@ resource "aws_eks_addon" "kube-proxy" {
 resource "aws_eks_node_group" "master" {
   cluster_name    = aws_eks_cluster.lab-k8s.name
   node_group_name = "${var.name}-master"
-  node_role_arn   = data.aws_iam_role.eks-done-sa.arn
+  node_role_arn   = data.aws_iam_role.eks-node-sa.arn
   subnet_ids      = [data.aws_subnet.lab-a.id ]
   
   ami_type = "AL2_x86_64"
@@ -76,7 +76,7 @@ resource "aws_eks_node_group" "master" {
   }
   
   labels = {
-    "node-role.kubernetes.io/control-plane" = "control-plane"
+    "role" = "control-plane"
   }
   
   taint {
@@ -85,7 +85,8 @@ resource "aws_eks_node_group" "master" {
   }
 
   remote_access {
-    ec2_ssh_key = "main-key" 
+    ec2_ssh_key = "main-key"
+#    source_security_group_ids = [aws_security_group.kube-default.id]
   }
 
   depends_on = [ 

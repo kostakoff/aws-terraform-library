@@ -28,6 +28,10 @@ variable "aws_iam_role_k8s_node" {
   default = "eksNodeGroup-sa"
 }
 
+variable "aws_route53_zone_id" {
+  default = "Z03810243UM55J6Q3VDJT"
+}
+
 data "aws_vpc" "lab-vpc" {
   id = var.aws_vpc_id
 }
@@ -48,6 +52,6 @@ data "aws_iam_role" "eks-sa" {
   name = var.aws_iam_role_k8s_api
 }
 
-data "aws_iam_role" "eks-done-sa" {
+data "aws_iam_role" "eks-node-sa" {
   name = var.aws_iam_role_k8s_node
 }

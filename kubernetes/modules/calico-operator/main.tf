@@ -24,6 +24,8 @@ resource "kubectl_manifest" "calico-installation" {
         - key: "node-role.kubernetes.io/control-plane"
           operator: "Exists"
           effect: "NoSchedule"
+      controlPlaneNodeSelector:
+        role: control-plane
   YAML
 
   wait_for_rollout = false
